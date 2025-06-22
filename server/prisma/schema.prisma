@@ -1,0 +1,32 @@
+// prisma/schema.prisma
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model Complaint {
+  id          String     @id @default(auto()) @map("_id") @db.ObjectId
+  title       String
+  description String
+  imageUrl    String?
+  lat         Float?
+  lng         Float?
+  email       String?
+  createdAt   DateTime   @default(now())
+  status      String?    @default("Pending")
+  comments    Comment[]  @relation("ComplaintComments")
+}
+
+model Comment {
+  id          String     @id @default(auto()) @map("_id") @db.ObjectId
+  complaintId String
+  content     String
+  createdAt   DateTime   @default(now())
+
+  complaint   Complaint  @relation("ComplaintComments", fields: [complaintId], references: [id])
+}
