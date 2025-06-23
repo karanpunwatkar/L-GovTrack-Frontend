@@ -18,7 +18,7 @@ function App() {
         setMessage(response.data);
       } catch (error) {
         console.error("❌ API Error:", error);
-        setMessage("❌ Failed to fetch API");
+        setMessage("");
       }
     };
 
