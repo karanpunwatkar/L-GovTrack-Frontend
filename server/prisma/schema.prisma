@@ -9,6 +9,16 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model User {
+  id        String     @id @default(auto()) @map("_id") @db.ObjectId
+  name      String?
+  email     String     @unique
+  password  String     // Or if you're using Clerk/Firebase, store provider ID
+  points    Int        @default(500) // 🎯 New users start with 500 points
+  createdAt DateTime   @default(now())
+  complaints Complaint[] // 🔗 One-to-many relationship with Complaint
+}
+
 model Complaint {
   id          String     @id @default(auto()) @map("_id") @db.ObjectId
   title       String
@@ -20,6 +30,10 @@ model Complaint {
   createdAt   DateTime   @default(now())
   status      String?    @default("Pending")
   comments    Comment[]  @relation("ComplaintComments")
+
+  // 🔗 Connect complaint to a user
+  userId      String?
+  user        User?      @relation(fields: [userId], references: [id])
 }
 
 model Comment {
