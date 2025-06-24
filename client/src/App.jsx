@@ -4,8 +4,8 @@ import ComplaintForm from "./components/ComplaintForm";
 import ComplaintList from "./components/ComplaintList";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
+import PointsSection from "./components/PointsSection";
 import RewardsSection from "./components/RewardsSection";
-import AllComplaintsList from "./components/AllComplaintsList";
 
 function App() {
   const [message, setMessage] = useState("...Loading");
@@ -39,14 +39,6 @@ function App() {
 
         <section id="list" className="mt-10">
           <ComplaintList />
-        </section>
-
-        <section id="rewards" className="mt-8">
-          <RewardsSection />
-        </section>
-
-        <section id="rewards" className="mt-8">
-          <AllComplaintsList />
         </section>
 
         

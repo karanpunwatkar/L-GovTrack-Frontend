@@ -16,14 +16,20 @@ function ComplaintList() {
       .catch((err) => console.error("Error fetching complaints:", err));
   };
 
-  const updateStatus = async (id, status) => {
-    try {
-      await axios.patch(`http://localhost:5000/complaints/${id}`, { status });
-      fetchComplaints(); // Refresh after update
-    } catch (err) {
-      console.error("❌ Failed to update status:", err);
-    }
-  };
+  const updateStatus = async (id, newStatus) => {
+  try {
+    const res = await axios.put(`http://localhost:5000/complaints/${id}/status`, {
+      status: newStatus,
+    });
+    // Update local state
+    setComplaints((prev) =>
+      prev.map((c) => (c.id === id ? { ...c, status: newStatus } : c))
+    );
+  } catch (err) {
+    console.error("❌ Status update error:", err);
+  }
+};
+
 
   const getStatusBadge = (status = "Pending") => {
     const base = "px-2 py-1 rounded-full text-xs font-semibold";
@@ -36,6 +42,8 @@ function ComplaintList() {
         return <span className={`${base} bg-red-100 text-red-700`}>Pending</span>;
     }
   };
+
+  
 
   return (
     <section className="max-w-6xl mx-auto mt-12 px-4">
